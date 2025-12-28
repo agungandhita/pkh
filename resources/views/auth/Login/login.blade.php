@@ -1,50 +1,95 @@
 @extends('auth.layouts.main')
 
 @section('container')
-<div class="bg-gray-100 font-[sans-serif]">
-    <div class="min-h-screen flex flex-col items-center justify-center py-6">
-      <div class="max-w-md w-full">
-        <div class="md:flex"><img
-          src="/img/lamongan.png" alt="logo" class='w-23 mx-auto block' />
-          <h1 class="text-gray-800 text-center text-2xl font-bold md:my-4">
-            Pemdes desa gedongboyountung
-          </h1>
+<div class="min-h-screen flex items-center justify-center bg-[#f8f9fa] p-4">
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row border border-gray-100">
+        <!-- Left Side: Branding/Info -->
+        <div class="w-full md:w-1/2 bg-black p-10 flex flex-col justify-center items-center text-white text-center">
+            <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }} Logo" class="w-32 mb-6 drop-shadow-lg" />
+            <h1 class="text-3xl font-extrabold tracking-tight mb-2">
+                {{ config('app.name') }}
+            </h1>
+            <p class="text-gray-400 text-sm max-w-xs mx-auto">
+                Sistem Informasi Terpadu Pelayanan Masyarakat. Masuk untuk mengakses dasboard admin.
+            </p>
+            <div class="mt-8 pt-8 border-t border-gray-800 w-full">
+                <p class="text-xs text-gray-500 italic">"Melayani dengan Integritas dan Transparansi"</p>
+            </div>
         </div>
 
-        <div class="p-8 rounded-2xl bg-white shadow">
-          <h2 class="text-gray-800 text-center text-2xl font-bold">Login</h2>
-          <form class="mt-8 space-y-4" action="{{ route('login.store') }}" method="POST">
-            @csrf
-            <div>
-              <label class="text-gray-800 text-sm mb-2 block">Email</label>
-              <div class="relative flex items-center">
-                <input name="email" type="email" required class="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600" placeholder="Enter Email" />
-                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-4 h-4 absolute right-4" viewBox="0 0 24 24">
-                  <circle cx="10" cy="7" r="6" data-original="#000000"></circle>
-                  <path d="M14 15H6a5 5 0 0 0-5 5 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 5 5 0 0 0-5-5zm8-4h-2.59l.3-.29a1 1 0 0 0-1.42-1.42l-2 2a1 1 0 0 0 0 1.42l2 2a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42l-.3-.29H22a1 1 0 0 0 0-2z" data-original="#000000"></path>
-                </svg>
-              </div>
+        <!-- Right Side: Login Form -->
+        <div class="w-full md:w-1/2 p-10 bg-white">
+            <div class="mb-10">
+                <h2 class="text-2xl font-bold text-gray-900">Selamat Datang</h2>
+                <p class="text-gray-500 text-sm mt-1">Silakan masuk ke akun Anda</p>
             </div>
 
-            <div>
-              <label class="text-gray-800 text-sm mb-2 block">Password</label>
-              <div class="relative flex items-center">
-                <input name="password" type="password" required class="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600" placeholder="Enter password" />
-                <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-4 h-4 absolute right-4 cursor-pointer" viewBox="0 0 128 128">
-                  <path d="M64 104C22.127 104 1.367 67.496.504 65.943a4 4 0 0 1 0-3.887C1.367 60.504 22.127 24 64 24s62.633 36.504 63.496 38.057a4 4 0 0 1 0 3.887C126.633 67.496 105.873 104 64 104zM8.707 63.994C13.465 71.205 32.146 96 64 96c31.955 0 50.553-24.775 55.293-31.994C114.535 56.795 95.854 32 64 32 32.045 32 13.447 56.775 8.707 63.994zM64 88c-13.234 0-24-10.766-24-24s10.766-24 24-24 24 10.766 24 24-10.766 24-24 24zm0-40c-8.822 0-16 7.178-16 16s7.178 16 16 16 16-7.178 16-16-7.178-16-16-16z" data-original="#000000"></path>
-                </svg>
-              </div>
-            </div>
+            @if (session('error'))
+                <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded-r-lg">
+                    <p>{{ session('error') }}</p>
+                </div>
+            @endif
 
-            <div class="!mt-8">
-              <button type="submit" class="w-full cursor-pointer py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
-                Log in
-              </button>
+            @if ($errors->any())
+                <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded-r-lg">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ route('login.store') }}" method="POST" class="space-y-6">
+                @csrf
+                <div>
+                    <label class="text-gray-700 text-xs font-bold uppercase tracking-wider mb-2 block">Alamat Email</label>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400 group-focus-within:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                        <input name="email" type="email" required
+                            class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all text-sm"
+                            placeholder="nama@email.com" value="{{ old('email') }}" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-gray-700 text-xs font-bold uppercase tracking-wider mb-2 block">Kata Sandi</label>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400 group-focus-within:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <input name="password" type="password" required
+                            class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all text-sm"
+                            placeholder="••••••••" />
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember" type="checkbox" class="h-4 w-4 text-black focus:ring-black border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-600">Ingat saya</label>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full py-4 px-6 bg-black hover:bg-gray-800 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                    Masuk Sekarang
+                </button>
+            </form>
+
+            <div class="mt-10 text-center">
+                <p class="text-gray-400 text-xs">
+                    &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+                </p>
             </div>
-            <p class="text-gray-800 text-sm !mt-8 text-center">Belum punya akun? <a href="#" class="text-blue-600 hover:underline ml-1 whitespace-nowrap font-semibold">Daftar disini</a></p>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 @endsection
+

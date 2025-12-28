@@ -18,10 +18,10 @@
     <div class="flex h-16 items-center justify-between px-4">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white">
-                <span class="text-sm font-semibold">PKH</span>
+                <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }} Logo" class="h-8 w-8 object-contain" />
             </div>
             <div class="leading-tight">
-                <div class="text-sm font-semibold text-slate-900">{{ config('app.name', 'PKH') }}</div>
+                <div class="text-sm font-semibold text-slate-900">{{ config('app.name') }}</div>
                 <div class="text-xs text-slate-500">Admin</div>
             </div>
         </a>

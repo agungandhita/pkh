@@ -38,8 +38,10 @@
                         <tr>
                             <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">NIK</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">Nama</th>
-                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">RT/RW</th>
-                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">DTKS</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">Tempat Lahir</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">Tanggal Lahir</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">Jenis Kelamin</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600">Alamat Desa</th>
                             <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-600">Aksi</th>
                         </tr>
                     </thead>
@@ -49,16 +51,18 @@
                                 <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-900">{{ $row->nik }}</td>
                                 <td class="px-4 py-3 text-sm text-slate-900">
                                     <div class="font-medium">{{ $row->nama }}</div>
-                                    <div class="mt-1 text-xs text-slate-500">{{ $row->alamat }}</div>
+                                    <div class="mt-1 text-xs text-slate-500">{{ $row->alamat_desa }}</div>
                                 </td>
-                                <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-700">{{ $row->rt }}/{{ $row->rw }}</td>
-                                <td class="whitespace-nowrap px-4 py-3 text-sm">
-                                    @if ($row->status_dtks)
-                                        <span class="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">Ya</span>
+                                <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-700">{{ $row->tempat_lahir ?? '-' }}</td>
+                                <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-700">
+                                    @if ($row->tanggal_lahir)
+                                        {{ Illuminate\Support\Carbon::parse($row->tanggal_lahir)->format('d-m-Y') }}
                                     @else
-                                        <span class="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Tidak</span>
+                                        -
                                     @endif
                                 </td>
+                                <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-700">{{ $row->jenis_kelamin ?? '-' }}</td>
+                                <td class="px-4 py-3 text-sm text-slate-700">{{ $row->alamat_desa ?? '-' }}</td>
                                 <td class="whitespace-nowrap px-4 py-3">
                                     <div class="flex justify-end gap-2">
                                         <a href="{{ route('admin.warga.edit', $row) }}"
@@ -78,7 +82,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-4 py-10 text-center text-sm text-slate-600">Belum ada data.</td>
+                                <td colspan="7" class="px-4 py-10 text-center text-sm text-slate-600">Belum ada data.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -91,4 +95,3 @@
         </div>
     </div>
 @endsection
-

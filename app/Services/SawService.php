@@ -145,7 +145,7 @@ class SawService
 
                 if ($k->jenis_atribut === 'cost') {
                     $min = (float) ($minByKriteria[$k->id] ?? 0.0);
-                    $normalized[$wargaId][$k->id] = $x > 0 ? $min / $x : 0.0;
+                    $normalized[$wargaId][$k->id] = $x > 0 ? $min / $x : ($min == 0 ? 1.0 : 0.0);
                 } else {
                     $max = (float) ($maxByKriteria[$k->id] ?? 0.0);
                     $normalized[$wargaId][$k->id] = $max > 0 ? $x / $max : 0.0;

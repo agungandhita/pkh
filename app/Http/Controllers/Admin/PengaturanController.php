@@ -12,7 +12,7 @@ class PengaturanController extends Controller
     public function edit()
     {
         $pengaturan = Pengaturan::query()->firstOrCreate(
-            ['id' => 1],
+            [],
             ['threshold_kelayakan' => 0.600000],
         );
 
@@ -26,7 +26,7 @@ class PengaturanController extends Controller
         ]);
 
         Pengaturan::query()->updateOrCreate(
-            ['id' => 1],
+            [],
             ['threshold_kelayakan' => $data['threshold_kelayakan']],
         );
 

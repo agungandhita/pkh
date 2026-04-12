@@ -12,10 +12,10 @@ return new class extends Migration
             $table->id();
             $table->string('nik', 32)->unique();
             $table->string('nama');
-            $table->string('tempat_lahir')->nullable();
-            $table->date('tanggal_lahir')->nullable();
-            $table->string('jenis_kelamin', 20)->nullable();
-            $table->text('alamat_desa')->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('rt', 4)->nullable();
+            $table->string('rw', 4)->nullable();
+            $table->boolean('status_dtks')->default(false);
             $table->timestamps();
         });
     }

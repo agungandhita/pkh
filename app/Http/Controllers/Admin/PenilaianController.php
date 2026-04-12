@@ -58,15 +58,15 @@ class PenilaianController extends Controller
             return redirect()->route('admin.penilaian.index')->with('error', 'Tidak ada kriteria aktif.');
         }
 
-        $data = $request->validate([
+        $rules = [
             'nilai' => ['required', 'array'],
-        ]);
+        ];
 
         foreach ($kriteriaIds as $kriteriaId) {
-            $request->validate([
-                'nilai.'.$kriteriaId => ['required', 'numeric', 'min:1', 'max:5'],
-            ]);
+            $rules['nilai.'.$kriteriaId] = ['required', 'numeric', 'min:1', 'max:5'];
         }
+
+        $data = $request->validate($rules);
 
         DB::transaction(function () use ($warga, $kriteriaIds, $data) {
             foreach ($kriteriaIds as $kriteriaId) {

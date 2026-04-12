@@ -44,18 +44,7 @@ class SawController extends Controller
             ->groupBy('warga_id')
             ->pluck('cnt', 'warga_id');
 
-        $incomplete = 0;
-        foreach ($wargaIds as $wargaId) {
-            if ((int) ($filledByWarga[$wargaId] ?? 0) < $kriteriaCount) {
-                $incomplete++;
-            }
-        }
 
-        if ($incomplete > 0) {
-            return redirect()
-                ->route('admin.penilaian.index')
-                ->with('error', 'Penilaian belum lengkap untuk '.$incomplete.' warga.');
-        }
 
         $saw->calculate();
 

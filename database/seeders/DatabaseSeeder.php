@@ -37,8 +37,8 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call([
+            KriteriaSeeder::class,
             WargaSeeder::class,
-            
         ]);
     }
 }

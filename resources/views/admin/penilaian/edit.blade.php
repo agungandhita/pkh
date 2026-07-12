@@ -4,7 +4,9 @@
     <div class="space-y-4">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-xl font-semibold text-slate-900">Input Penilaian</h1>
+                <h1 class="text-xl font-semibold text-slate-900">
+                    {{ $existing->isNotEmpty() ? 'Edit Penilaian' : 'Input Penilaian' }}
+                </h1>
                 <p class="mt-1 text-sm text-slate-600">{{ $warga->nik }} — {{ $warga->nama }}</p>
             </div>
             <a href="{{ route('admin.penilaian.index') }}"
@@ -30,8 +32,8 @@
                         @forelse ($kriteria as $k)
                             @php
                                 $oldValue = old('nilai.'.$k->id);
-                                $currentValue = $existing[$k->id]->nilai ?? null;
-                                $selected = $oldValue !== null ? (string) $oldValue : ($currentValue !== null ? (string) $currentValue : '');
+                                $currentValue = isset($existing[$k->id]) ? (int) $existing[$k->id]->nilai : null;
+                                $selected = $oldValue !== null ? (int) $oldValue : $currentValue;
                             @endphp
                             <tr class="hover:bg-slate-50">
                                 <td class="px-4 py-3 text-sm text-slate-900">
@@ -41,9 +43,9 @@
                                 <td class="px-4 py-3 text-sm">
                                     <select name="nilai[{{ $k->id }}]"
                                         class="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm focus:border-slate-400 focus:outline-none">
-                                        <option value="" @selected($selected === '')>Pilih nilai...</option>
+                                        <option value="" @selected($selected === null)>Pilih nilai...</option>
                                         @foreach ($k->subKriteria as $sub)
-                                            <option value="{{ $sub->nilai }}" @selected($selected === (string) $sub->nilai)>
+                                            <option value="{{ $sub->nilai }}" @selected($selected === (int) $sub->nilai)>
                                                 {{ $sub->nilai }} — {{ $sub->nama_sub_kriteria }}
                                             </option>
                                         @endforeach

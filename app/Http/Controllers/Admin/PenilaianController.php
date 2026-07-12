@@ -27,6 +27,9 @@ class PenilaianController extends Controller
             ->withCount([
                 'penilaian as penilaian_count' => fn ($q) => $q->whereIn('kriteria_id', $kriteriaAktifIds),
             ])
+            ->with([
+                'penilaian' => fn ($q) => $q->whereIn('kriteria_id', $kriteriaAktifIds)->with('kriteria'),
+            ])
             ->orderBy('nama')
             ->paginate(15)
             ->withQueryString();
